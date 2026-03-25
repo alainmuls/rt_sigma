@@ -2,7 +2,7 @@
 name = "rt-sigma"
 version = "0.1.0"
 authors = [
-    { name = "Alain Muls", email = "alain.muls@satenavam.be" },
+    { name = "Alain Muls", email = "alain.muls@satnavam.be" },
 ]
 description = "A Python package for real-time detection of GNSS interferences."
 readme = "README.md"
