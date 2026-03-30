@@ -21,7 +21,7 @@ The primary goal of project `rt-sigma` is to develop a fully automated, (near) r
 * **Automated RF Forensics:** Deploying a "triggered capture" mechanism that preserves raw radio frequency (IQ) samples during an active interference event, providing the necessary evidence for signal characterization and source localization.
 
 ## **Proposed Methodology**
-The project utilizes a modular software-defined architecture. A dedicated utility converts live receiver streams into a standardized data format. This data is broadcast via a high-performance message broker (such as NATS or Redis) to a suite of analytical "consumers" deployed in Regional Processing Hubs. Each hub acts as a "Cluster Controller" for approximately five stations. The hub processes the incoming streams and detection algorithms analyze these streams for SNR degradation or coordinate instability.
+The project utilizes a modular software-defined architecture. A dedicated utility converts live receiver streams into a standardized data format. This data is broadcast via a high-performance message broker (such as NATS or REDIS) to a suite of analytical "consumers" deployed in Regional Processing Hubs. Each hub acts as a "Cluster Controller" for approximately five stations. The hub processes the incoming streams and detection algorithms analyze these streams for SNR degradation or coordinate instability.
 
 By processing data in regional clusters, `rt-sigma` minimizes the bandwidth load on the central backbone while maintaining the "Black Box" recording capability (IQ capture) close to the data source. 
 
@@ -32,7 +32,7 @@ The consumers at each cluster apply statistical algorithms to monitor:
 2.  **Coordinate Integrity:** Identifying spoofing attempts by detecting instantaneous, non-physical shifts in the known fixed positions of the reference stations.
 
 ## **Impact and Application**
-This clustered approach ensures a robust, cost-effective deployment. The result is a national **"Situational Awareness Map"** where regional hubs report localized threats to a central command center with immediate, actionable intelligence on the state of the Belgian L-band spectrum. The project results provide  a state-of-the-art situational awareness dashboard, transforming GNSS monitoring from a retrospective analysis tool into a proactive defense asset.
+This clustered approach ensures a robust, cost-effective deployment. The result is a national **Situational Awareness Map** where regional hubs report localized threats to a central command center with immediate, actionable intelligence on the state of the Belgian L-band spectrum. The project results provide  a state-of-the-art situational awareness dashboard, transforming GNSS monitoring from a retrospective analysis tool into a proactive defense asset.
 
 # Work Packages `rt-sigma`
 
@@ -41,7 +41,7 @@ This clustered approach ensures a robust, cost-effective deployment. The result 
 
 **Goal:** Define the technical framework for real-time monitoring and review existing streaming GNSS interference methodologies.
 
-* **Task 1.1: Review of Real-Time Detection Methods:** Study existing "Detect-on-Arrival" systems and stream-processing architectures (e.g., NATS, Kafka, RabbitMQ, or Redis-based pipelines).
+* **Task 1.1: Review of Real-Time Detection Methods:** Study existing "Detect-on-Arrival" systems and stream-processing architectures (e.g., NATS, Kafka, RabbitMQ, or REDIS-based pipelines).
 * **Task 1.2: Technical Requirements Definition:** Specify the requirements for the GNSS parser output (CSV schema) and the latency thresholds required for alerting.
 * **Task 1.3: Analysis of Multi-Constellation Streams:** Define how GPS, Galileo, GLONASS, and BeiDou signals will be synchronized within the live data bus.
 
@@ -137,7 +137,7 @@ This clustered approach ensures a robust, cost-effective deployment. The result 
 
 
 * **Task X.1: Project Planning & Tracking**
-    * Manage the 48-month timeline and milestone progress.
+    * Manage the timeline and milestone progress.
 * **Task X.2: Stakeholder Communication**
     * Conduct quarterly meetings and yearly briefing.
 * **Task X.3: Reporting**
