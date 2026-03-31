@@ -1,0 +1,96 @@
+
+### 1. Create a Configuration File (`rtk.conf`)
+You can create a simple text file with these essential settings. You can name it `flepos.conf`:
+
+```ini
+pos1-posmode      =kinematic    # or 'static' if your antenna isn't moving
+pos1-frequency    =l1+l2+l5     # FLEPOS 3.2 supports triple frequency
+pos1-elmask       =15           # ignore satellites below 15 degrees
+pos1-snrmask_r    =35           # signal strength filter
+pos1-navsys       =63           # Use GPS+GLO+GAL+BDS+QZSS
+set-anttype       =* # Use default antenna if unknown
+```
+
+### 2. The Unified Command
+Since you are already using `str2str` to get the corrections, the most efficient way to run this in a Linux/Unix environment (or via CMD/PowerShell if you have the binaries) is to let `rtkrcv` handle the connections directly.
+
+Run this command to start the console interface:
+
+```bash
+rtkrcv -s -p 2101 -o flepos.conf
+```
+
+### 3. Configure the Inputs inside `rtkrcv`
+Once the console opens, you can set the streams dynamically:
+
+1.  **Set Rover** (Your local GNSS hardware):
+    `inp-str1 serial://ttyUSB0:115200:8:n:1:off`
+2.  **Set Base** (The FLEPOS stream you just tested):
+    `inp-str2 ntrip://157912a001:satnavam@gnss.vlaanderen.be:2101/FLEPOSVRS32GREC`
+3.  **Set NMEA Feedback** (Crucial for VRS):
+    `inp-nmeacycle 5000`
+    `inp-nmeapos 50.784768 5.209092 70`
+4.  **Start Processing**:
+    `start`
+
+---
+
+### Monitoring your "Fix"
+Once started, type **`status 1`** in the console. Look for the **"Solution"** line:
+* **`1`**: Fixed (Centimeter accuracy — what you want!)
+* **`2`**: Float (Decimeter accuracy)
+* **`5`**: Single (Standard GPS accuracy, no corrections applied yet)
+
+> **Note:** Since you are in Sint-Truiden, your baseline to the nearest physical FLEPOS station is likely less than 10km, so you should see a **"Fix"** very quickly.
+
+Would you like me to provide a **pre-configured .conf file** that you can just download and run to save you the manual setup?
+
+
+------------------
+
+If your receiver is reachable via TCP/IP (for example, if it's an OEM board like a u-blox ZED-F9P connected to a Serial-to-Ethernet converter or a Raspberry Pi), you just need to swap the `serial://` path for a `tcpcli://` (TCP Client) path.
+
+In this setup, **`rtkrcv`** acts as a client that "calls" your receiver's IP address to pull the raw GNSS data.
+
+### 1. Identify your Receiver's Role
+* **TCP Client (`tcpcli`)**: Use this if your receiver is acting as a **Server** (listening on a port). This is the most common setup for networked GNSS receivers.
+* **TCP Server (`tcpsvr`)**: Use this if your receiver is configured to "push" data to your PC's IP address.
+
+### 2. Update the Configuration
+You can either edit your `.conf` file or type these commands directly into the `rtkrcv` console:
+
+**If your receiver is at `192.168.1.50` on port `5000`:**
+
+```bash
+# Inside rtkrcv console:
+set inpstr1-type tcpcli
+set inpstr1-path 192.168.1.50:5000
+set inpstr1-format ubx    # Change to 'rtcm3' if your receiver outputs RTCM
+restart
+```
+
+### 3. The Full Workflow (Visualized)
+
+
+
+---
+
+### Pro-Tip: Testing the Receiver Stream
+Before you try to get an RTK fix, it is always a good idea to verify you are actually seeing data from the receiver over the network. You can use your trusted `str2str` tool for a quick "sanity check":
+
+```bash
+# This will simply print your receiver's raw data to the screen
+str2str -in tcpcli://192.168.1.50:5000 -out stdout
+```
+
+### Summary of Path Formats
+| Connection Type | Path Format |
+| :--- | :--- |
+| **Serial/USB** | `serial://ttyUSB0:115200:8:n:1:off` |
+| **TCP Client** | `tcpcli://<IP_ADDRESS>:<PORT>` |
+| **TCP Server** | `tcpsvr://:<PORT>` |
+| **NTRIP (Base)** | `ntrip://user:passwd@addr:port/mountpoint` |
+
+**Would you like me to help you configure the "Output" stream so you can send your precise NMEA coordinates to another application (like QGIS or a mapping tool) over the same network?**
+
+

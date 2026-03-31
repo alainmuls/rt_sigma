@@ -1,0 +1,29 @@
+str2str -in ntrip://prakopetznathan@gmail.com:password@rtk2go.com:2101/Stuer#rtcm3 -out file:///tmp/str2strtest/Stuer.rtcm3
+
+str2str -in ntrip://alain.muls@satnavam.be:none@rtk2go.com:2101/Stuer#rtcm3 -out file:///tmp/str2strtest/Stuer.rtcm3
+str2str -in ntrip://alain.muls@satnavam.be:none@rtks2go.com:2101/AvonHouse:#rtcm3 -out file:///tmp/str2strtest/AvonHouse.rtcm3
+
+str2str -in ntrip://amuls:amuls134@euref-ip.be:2101/BRUX00BEL0#rtcm3 -out file:///tmp/str2strtest/BRUX00BEL0.rtcm3
+str2str -in ntrips://amuls:amuls134@euref-ip.be:2102/DENT00BEL0#rtcm3 -out file:///tmp/str2strtest/DENT00BEL0.rtcm3  RECV ERROR
+
+str2str -in ntrip://118988a003:23589@flepos.vlaanderen.be:8080/FLEPOSTGRN32GREC#rtcm3 out file:///tmp/str2strtest/FLEPOSNRS31GR.rtcm3
+str2str -in ntrip://118988a003:23589@flepos.vlaanderen.be:2101/FLEPOSAARS31GREC#rtcm3 out file:///tmp/str2strtest/FLEPOSAARS31GREC.rtcm3
+str2str -in ntrip://118988a003:23589@flepos.vlaanderen.be:2101/FLEPOSBERL01#rtcm3 out file:///tmp/str2strtest/FLEPOSBERL01.rtcm3
+
+
+# FLEPOSTGRN32GREC
+
+------------------------------------------------------------------------
+getting list of mountpoints with RTCM Msg numbers:
+   str2str -in ntrip://157912a001:satnavam@gnss.vlaanderen.be:2101/
+
+Cnnection to NRS:
+  str2str -in ntrip://157912a001:satnavam@gnss.vlaanderen.be:2101/FLEPOSNRS32GREC -p 50.784768 5.209092 70 -n 5000 -out file:///tmp/str2strtest/fleposnrs32grec.rtcm3
+  str2str -in ntrip://157912a001:satnavam@gnss.vlaanderen.be:2101/FLEPOSVRS32GREC -p 50.784768 5.209092 70 -n 5000 -out file:///tmp/str2strtest/fleposvrs32grec.rtcm3 
+
+
+--------------------------------------------------
+To pipe the FLEPOS stream into **`rtkrcv`** (the real-time positioning engine of RTKLIB), you need to set up a configuration file that tells the engine where to find your rover data and where to find the FLEPOS corrections (the "base").
+
+
+
